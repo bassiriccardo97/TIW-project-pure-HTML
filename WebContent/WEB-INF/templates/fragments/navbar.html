@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+</head>
+<body>
+	<div class="navbar" th:fragment="navbar">
+		<div class="navbar-logo">
+			<p th:text=#{categoriesTitle}>Catalogo Immagini</p>
+		</div>
+		<div class="navbar-links">
+			<a th:if="${session.user != null}" th:href="@{/GetCategories}">&#127968;</a>
+			<a href="/TIW-project/LanguageManager?language=it">&#127470;&#127481;</a>
+			<a href="/TIW-project/LanguageManager?language=en">&#127468;&#127463;</a>
+			<a href="/TIW-project/LanguageManager?language=es">&#127466;&#127480;</a>
+			<a href="/TIW-project/LanguageManager?language=de">&#127465;&#127466;</a>
+			<a href="/TIW-project/LanguageManager?language=fr">&#127467;&#127479;</a> 
+		</div>
+		<div class="navbar-buttons" th:if="${session.user != null}">
+			<div class="navbar-text"><span th:text="|#{welcome}, ${session.user.getUsername()}"></span></div>
+			<div class="button button-outline">
+				<a href="/TIW-project/Logout">
+					<th:block th:text=#{logout}>
+				</a>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

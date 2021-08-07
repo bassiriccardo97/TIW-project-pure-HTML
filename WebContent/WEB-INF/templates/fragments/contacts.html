@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+	<div class="contacts" th:fragment="contacts">
+		<address><th:block th:text="#{producedBy}">Produced by</address>
+		<div class="emails">
+			<address>
+				Riccardo Bassi: <a href="mailto:riccardo4.bassi@mail.polimi.it">riccardo4.bassi@mail.polimi.it</a>
+				<th:block th:text="#{personCode} + ': 10521394'">
+			</address>
+			<address>
+				Francesco Battagin: <a href="mailto:batta@mail.polimi.it">francesco.battagin@mail.polimi.it</a>
+				<th:block th:text="#{personCode} + ': 10528227'">
+			</address>
+			<address>
+				Francesco Melegati Maccari: <a href="mailto:francescomaria.melegati@mail.polimi.it">francescomaria.melegati@mail.polimi.it</a>
+				<th:block th:text="#{personCode} + ': 10654486'">
+			</address>
+		</div>
+	</div>
+</body>
+</html>

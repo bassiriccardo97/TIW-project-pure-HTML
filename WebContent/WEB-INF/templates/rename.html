@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+    th:with="lang=${language}" th:lang="${lang}">
+<head>
+	<title th:text="#{categoriesTitle}">Catalogo immagini</title>
+	<meta http-equiv="Content-Type" content="text/html" charset="UTF-8"/>
+	<link rel="stylesheet" type="text/css" media="all" href="css/style.css" th:href="@{/css/style.css}">
+</head>
+<body>
+	<div th:replace="WEB-INF/templates/fragments/navbar :: navbar"></div>
+		
+	<div class="content">
+		<h1 th:text="#{renameTitle}"></h1>
+		<h2 th:text="${oldName}"></h2>
+		<div class="new-category-container">
+			<form class="new-category-form" action="/TIW-project/RenameCategoryPerform" method="POST" id="new-category-form">
+				<input type="hidden" name="category-to-rename-id" th:value="${catId}">
+				<input type="text" class="input new-category-input" name="category-to-rename-name" th:placeholder="#{categoryNewName}"/>
+				<input type="submit" class="button button-filled" th:value="#{categoriesRename}"/>	
+			</form>
+		</div>
+	</div>
+	<div th:replace="WEB-INF/templates/fragments/contacts :: contacts"></div>
+	
+</body>
+</html>

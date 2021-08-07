@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+	<div th:fragment="list (node)">
+		<div class="category" th:if="${node.getCategory() != null}">
+			<p class="category-name">
+				<b>[[${node.getCategory().getIndexToPrint()}]]</b>
+				<a th:href="@{/ImagesList(category-id=${node.getCategory().getId()},category-name=${node.getCategory.getName()})}">
+					<th:block th:utext="'   ' + ${node.getCategory().getName()}"/>
+				</a>
+			</p>
+			<div class="category-control-buttons">
+				<form action="/TIW-project/RenameCategory" method="GET" id="move-category-form">
+					<input type="hidden" name="category-to-rename-name" th:value="${node.getCategory().getName()}">
+					<input type="hidden" name="category-to-rename-id" th:value="${node.getCategory().getId()}">
+					<input type="submit" class="button half-button button-filled category-button" th:value="#{categoriesRename}"/> 
+				</form>
+				<form action="/TIW-project/DeleteCategory" method="POST" id="move-category-form">
+					<input type="hidden" name="category-to-delete-id" th:value="${node.getCategory().getId()}">
+					<input type="hidden" name="category-to-delete-father-id" th:value="${node.getCategory().getFatherId()}">
+					<input type="submit" class="button half-button button-filled category-button" th:value="#{categoriesDelete}"/> 
+				</form>
+				<div th:if="${node.getCategory().getFatherId() != 0 or node.getCategory().getFatherId() == 0 and categoriesTree.isLonelyChild() == false and categoriesTree.getRoot().getChildren().get(categoriesTree.getRoot().getChildren().size() -1).getCategory().getId != node.getCategory().getId()}">
+					<form action="/TIW-project/MoveCategoryPerform" method="POST" id="move-category-form">
+						<input type="hidden" name="category-to-move-id" th:value="${node.getCategory().getId()}">
+						<input type="hidden" name="category-to-move-old-father" th:value="${node.getCategory().getFatherId()}">
+						<input type="hidden" name="category-to-move-new-father" th:value="0">
+						<input type="submit" class="button half-button button-filled category-button" value="&#8593;"/>
+					</form>
+				</div>
+				<div th:if="${node.isMovable() == true}">
+					<form action="/TIW-project/MoveCategorySelect" method="POST" id="move-category-form">
+						<input type="hidden" name="category-to-move-id" th:value="${node.getCategory().getId()}">
+						<input type="hidden" name="category-to-move-father" th:value="${node.getCategory().getFatherId()}">
+						<input type="submit" class="button half-button button-filled category-button" th:value="#{categoriesMove}"/> 
+					</form>
+				</div>
+			</div>
+		</div>
+		
+		<ul class="c-list" th:unless="${#lists.isEmpty(node.getChildren())}">
+			<li class="c-list" th:each="child : ${node.getChildren()}">
+				<ul class="c-list" th:replace="this::list (${child})"></ul>
+			</li>
+		</ul>
+
+	</div>
+</body>
+</html>

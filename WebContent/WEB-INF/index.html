@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+    th:with="lang=${language}" th:lang="${lang}">
+<head th:replace="WEB-INF/templates/fragments/header :: head"></head>
+<body>
+	<div th:replace="WEB-INF/templates/fragments/navbar :: navbar"></div>	
+	<div class="content">
+		<form action="/TIW-project/RegisterOrLogin" method="POST" class="login-form">
+			<div class="login-field">
+				<label class="title" for="username-input">Username</label>
+				<input class="input login-input" id="username-input" type="text" th:placeholder="#{loginAddUsername}" name="username" />
+			</div>
+			<div class="login-field">
+				<label class="title" for="password-input">Password</label>
+				<input class="input login-input" id="password-input" type="password" th:placeholder="#{loginAddPsw}" name="password" />
+			</div>
+			<div class="login-buttons">
+				<input type="submit" name="action" class="button button-filled login-button" th:value="#{login}">
+				<input type="submit" name="action" class="button button-outline login-button" th:value="#{register}">	
+			</div>
+	 	</form>
+	</div>
+	<div th:replace="WEB-INF/templates/fragments/contacts :: contacts"></div>
+</body>
+</html>
+ 

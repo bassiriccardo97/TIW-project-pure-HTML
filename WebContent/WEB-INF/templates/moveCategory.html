@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+    th:with="lang=${language}" th:lang="${lang}">
+<head th:replace="WEB-INF/templates/fragments/header :: head"></head>
+<body>
+<div th:replace="WEB-INF/templates/fragments/navbar :: navbar"></div>
+	
+	<div class="content">
+		<div class="categories-list" th:remove="all-but-first">
+			<div th:replace="WEB-INF/templates/fragments/listMove :: list (node=${categoriesTree.getRoot()})"></div>
+		</div>
+	</div>
+	
+	<div th:replace="WEB-INF/templates/fragments/contacts :: contacts"></div>
+</body>
+</html>

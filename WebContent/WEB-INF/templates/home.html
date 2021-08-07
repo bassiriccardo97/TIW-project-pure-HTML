@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+    th:with="lang=${language}" th:lang="${lang}">
+<head th:replace="WEB-INF/templates/fragments/header :: head"></head>
+<body>
+	<div th:replace="WEB-INF/templates/fragments/navbar :: navbar"></div>
+		
+	<div class="content">
+		<div class="categories-list" th:remove="all-but-first">
+			<th:block th:with="root=${categoriesTree.getRoot()}">
+			<div th:switch="${#lists.isEmpty(root.getChildren())}">
+				<div th:case="true">
+					<th:block th:text="#{noCategoryYet}">
+				</div>
+				<div th:case="false">
+					<div th:replace="WEB-INF/templates/fragments/list :: list (categoriesTree=${categoriesTree}, node=${categoriesTree.getRoot()})"></div>
+				</div>
+			</div>
+		</div>
+		
+		<div class="new-category-container">
+			<form class="new-category-form" action="/TIW-project/CreateCategory" method="POST" id="new-category-form">
+				<input type="text" class="input new-category-input" name="category-name" th:placeholder="#{categoriesAddHere}"/>
+				<select form="new-category-form" name="category-father-id">
+					<option th:each="category : ${categoriesTree.treeToListCreateCategory(session.language)}" th:utext="${category.getCategory().name}" th:value="${category.getCategory().id}"></option>
+				</select>
+				<input type="submit" class="button button-filled" th:value="#{categoriesCreate}"/>	
+			</form>
+		</div>
+	</div>
+	
+	<div th:replace="WEB-INF/templates/fragments/contacts :: contacts"></div>
+	
+</body>
+</html>

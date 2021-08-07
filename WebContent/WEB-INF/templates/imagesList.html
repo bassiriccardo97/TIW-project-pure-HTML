@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+    th:with="lang=${language}" th:lang="${lang}">
+<head th:replace="WEB-INF/templates/fragments/header :: head"></head>
+<body>
+<div th:replace="WEB-INF/templates/fragments/navbar :: navbar"></div>	
+	<div class="content">
+		<h1 th:text="${categoryName}"></h1>
+		<div class="categories-list" th:remove="all-but-first">
+			<div th:switch="${images.size()}">
+				<div th:case="0">
+					<p th:text="#{empty}">This category is empty.</p>
+				</div>
+				<div th:case="*">
+					<div th:each="image : ${images}">
+						<div class="category">
+							<p class="category-name"><b>[[${images.indexOf(image) + 1}]]</b>
+								<a th:href="@{/ShowImage(filename=${image})}">
+									<th:block th:with="start=${#strings.indexOf(image,'--')+2}, ">
+									<th:block th:with="end=${#strings.indexOf(image,'.')}">
+									<th:block th:with="str=${#strings.substring(image,start,end)}">
+									<th:block th:text="'   '+${#strings.replace(str,'+',' ')}"/>
+								</a>
+							</p>
+							<div class="category-control-buttons">
+								<form action="/TIW-project/DownloadImage" method="GET" id="download-image-form">
+									<input type="hidden" name="filename" th:value="${image}">
+									<input type="submit" class="button half-button button-filled category-button" th:value="#{download}">
+								</form>
+								<form action="/TIW-project/DeleteImage" method="POST" id="delete-image-form">
+									<input type="hidden" name="filename" th:value="${image}">
+									<input type="submit" class="button half-button button-filled category-button" th:value="#{delete}">
+								</form>
+							</div>
+						</div>
+					</div>
+				</div>
+				
+			</div>
+			
+		</div>
+		
+		<div class="new-category-container">
+			<form action="/TIW-project/AddImage" class="new-category-form" method="POST" id="new-category-form" enctype="multipart/form-data">
+				<label th:utext="#{newImage}">Add new images in this category</label>
+				<input type="hidden" name="father-id" th:value="${fatherId}">
+				<input type="hidden" name="category-name" th:value="${categoryName}">
+				<input type="file" id="image-uploads" name="image-uploads" accept="image/*" multiple>
+				<input type="submit" class="button button-filled" th:value="#{newImageBtn}" />
+			</form>
+		</div>
+	</div>
+	
+	<div th:replace="WEB-INF/templates/fragments/contacts :: contacts"></div>
+</body>
+</html>

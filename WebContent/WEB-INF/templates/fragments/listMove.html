@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+	<div th:fragment="list (node)">
+		<div th:if="${node.getCategory() != null}">
+			<div th:switch="${#lists.contains(treeList, node)}">
+				<div class="category" th:case="${false}">
+					<p class="to-move"><b>[[${node.getCategory().getIndexToPrint()}]]</b><th:block th:utext="'   ' + ${node.getCategory().getName()}"/></p>
+				</div>
+				<div th:case="*">
+					<div class="category" th:if="${node.getCategory().getId() != catToMoveFather}">
+						<p><b>[[${node.getCategory().getIndexToPrint()}]]</b><th:block th:utext="'   ' + ${node.getCategory().getName()}"/></p>
+						<form action="/TIW-project/MoveCategoryPerform" method="POST" id="move-category-form">
+							<input type="hidden" name="category-to-move-id" th:value="${catToMoveId}">
+							<input type="hidden" name="category-to-move-old-father" th:value="${catToMoveFather}">
+							<input type="hidden" name="category-to-move-new-father" th:value="${node.getCategory().getId()}">
+							<input type="submit" class="button half-button button-filled category-button" th:value="#{categoriesMoveHere}"/>
+						</form>
+					</div>
+					<div class="category" th:if="${node.getCategory().getId() == catToMoveFather}">
+						<p><b>[[${node.getCategory().getIndexToPrint()}]]</b><th:block th:utext="'   ' + ${node.getCategory().getName()}"/></p>
+					</div>
+				</div>
+			</div>
+		</div>
+		
+		<ul th:unless="${#lists.isEmpty(node.getChildren())}">
+
+			<li th:each="child : ${node.getChildren()}">
+				<ul th:replace="this::list (${child})"></ul>
+			</li>
+
+		</ul>
+
+	</div>
+</body>
+</html>
